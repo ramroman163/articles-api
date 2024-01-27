@@ -1,33 +1,35 @@
-### GET ALL
+### GET ALL RAW
+GET http://localhost:3000/articles?raw=true
+
+### GET ALL PROCESSED
 GET http://localhost:3000/articles
 
 ### GET BY ID
-GET http://localhost:3000/articles/4e6f1a3b-1b67-4a79-8b0c-b7ad88d09e63
-
+GET http://localhost:3000/articles/8602a9aa-6fe1-4c84-a415-876a31047c34
 
 ### GET BY CATEGORY
-GET http://localhost:3000/articles/categories/Electrónicos
+GET http://localhost:3000/articles/categories/poo
 
 ### POST
 POST http://localhost:3000/articles
 Content-Type: application/json
 
-
 {
-  "name": "Termo",
-  "price": 20,
+  "id-all": 43,
+  "name": "Termo stanley",
+  "price": 254.00,
   "category_id": 1,
   "description": "Mantiene el agua fría por 10 horas",
   "brand_id": 1,
-  "availability": true
+  "availability": true,
+  "release_date": "1969-10-01"
 }
 
-
 ### DELETE
-DELETE http://localhost:3000/articles/2f0601f6-eb93-4d55-90a2-b151b2af63de
+DELETE http://localhost:3000/articles/6aaec538-8906-48cf-b0a6-98824beb24cc
 
 ### PATCH
-PATCH http://localhost:3000/articles/41a0e880-8b0f-44ba-9ddb-d2f9bb34ce01
+PATCH http://localhost:3000/articles/494079db-f1a3-416a-8043-462529107d18
 Content-Type: application/json
 
 {

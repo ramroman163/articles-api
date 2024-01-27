@@ -1,11 +1,4 @@
-/* import { createRequire } from 'node:module'; */
 import { createClient } from "@libsql/client";
-
-/* Creamos un require para importar el json y trabajar con él */
-/*
-const require = createRequire(import.meta.url)
-const articles = require('../articles.json')
-*/
 import { randomUUID } from 'node:crypto'
 
 export class ArticleModel {
@@ -30,6 +23,32 @@ export class ArticleModel {
     return articles.rows
   }
 
+  static async getAllProcessed () {
+    const client = await this.createConnection();
+
+    const articles = await client.execute(`
+    SELECT 
+    A.id,
+    A.name, 
+    C.name AS category, 
+    B.name AS brand, 
+    A.price,
+    A.description,
+    CASE
+        WHEN A.availability = 1
+        THEN "Disponible"
+        ELSE "No disponible"
+    END AS availability,
+    A.release_date
+    FROM Articles AS A
+    INNER JOIN categories AS C ON A.category_id = C.id
+    INNER JOIN brands AS B ON A.brand_id = B.id;`);
+
+    client.close()
+
+    return articles.rows
+  }
+
   static async getById (id) {
     const client = await this.createConnection();
 
@@ -40,7 +59,13 @@ export class ArticleModel {
 
     client.close()
 
-    return article.rows
+    if (article.rows.length > 1) {
+      return article.rows
+    } else if (article.rows.length === 1) {
+      return article.rows[0]
+    } else {
+      return false;
+    }
   }
 
   static async getByCategory (category) {
@@ -58,18 +83,20 @@ export class ArticleModel {
   }
 
   static async create (input) {
+    const todayDate = new Date().toJSON().slice(0, 10);
+
     const newArticle = {
       id: randomUUID(),
-      release_date: new Date("yyyy, mm, dd"),
+      release_date: todayDate,
       ...input,
       category_id: `${input.category_id}`,
       brand_id: `${input.brand_id}`,
     }
-    console.log(newArticle)
+
     const client = await this.createConnection();
 
     await client.execute({
-      sql: "INSERT INTO articles (id, name, price, category_id, description, brand_id, availability) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      sql: "INSERT INTO articles (id, name, price, category_id, description, brand_id, availability, release_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
       args: [
         newArticle.id,
         newArticle.name,
@@ -77,7 +104,8 @@ export class ArticleModel {
         newArticle.category_id,
         newArticle.description,
         newArticle.brand_id,
-        newArticle.availability
+        newArticle.availability,
+        newArticle.release_date
       ]
     })
 
@@ -121,13 +149,17 @@ export class ArticleModel {
   }
 
   static async delete (id) {
-    const articleIndex = articles.findIndex(article => article.id === id)
+    const client = await this.createConnection();
 
-    if (articleIndex < 0) {
+    const deleteResponse = await client.execute({
+      sql: "DELETE FROM articles WHERE id = ?",
+      args: [id],
+    })
+
+    if (!deleteResponse.rowsAffected) {
       return false
+    } else {
+      return true
     }
-
-    articles.splice(articleIndex, 1)
-    return true
   }
 }

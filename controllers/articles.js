@@ -3,9 +3,16 @@ import { validateArticle, validatePartialArticle } from '../schemas/articles.js'
 
 export class articleController {
   static async getAll (req, res) {
-    const articles = await ArticleModel.getAll();
 
-    return res.json(articles);
+    if (req.query.raw) {
+      const articles = await ArticleModel.getAll();
+
+      return res.json(articles);
+    } else {
+      const articles = await ArticleModel.getAllProcessed();
+
+      return res.json(articles);
+    }
   }
 
   static async getByCategory (req, res) {
@@ -13,7 +20,7 @@ export class articleController {
 
     const filteredArticles = await ArticleModel.getByCategory(category)
 
-    if (!filteredArticles) {
+    if (filteredArticles.length === 0) {
       res.status(404).json({ message: "Cero articles found" })
     } else {
       res.json(filteredArticles)
@@ -34,7 +41,7 @@ export class articleController {
 
   static async create (req, res) {
     const result = validateArticle(req.body)
-    console.log(result)
+
     if (result.error) {
       return res.status(400).json({ error: JSON.parse(result.error.message) })
     }
