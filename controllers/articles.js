@@ -1,13 +1,11 @@
-import { createRequire } from 'node:module'
 import { ArticleModel } from '../models/article.js'
 import { validateArticle, validatePartialArticle } from '../schemas/articles.js'
 
-const require = createRequire(import.meta.url)
-const articles = require('../articles.json')
-
 export class articleController {
   static async getAll (req, res) {
-    return res.json(articles)
+    const articles = await ArticleModel.getAll();
+
+    return res.json(articles);
   }
 
   static async getByCategory (req, res) {
@@ -36,7 +34,7 @@ export class articleController {
 
   static async create (req, res) {
     const result = validateArticle(req.body)
-
+    console.log(result)
     if (result.error) {
       return res.status(400).json({ error: JSON.parse(result.error.message) })
     }

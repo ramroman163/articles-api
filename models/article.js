@@ -1,55 +1,123 @@
-import { createRequire } from 'node:module'
+/* import { createRequire } from 'node:module'; */
+import { createClient } from "@libsql/client";
 
 /* Creamos un require para importar el json y trabajar con él */
-
+/*
 const require = createRequire(import.meta.url)
 const articles = require('../articles.json')
-
+*/
 import { randomUUID } from 'node:crypto'
 
 export class ArticleModel {
+
+  static async createConnection () {
+
+    const client = createClient({
+      url: process.env.DB_URL,
+      authToken: process.env.DB_TOKEN,
+    });
+
+    return client;
+  }
+
   static async getAll () {
-    return articles
+    const client = await this.createConnection();
+
+    const articles = await client.execute("SELECT * FROM articles");
+
+    client.close()
+
+    return articles.rows
   }
 
   static async getById (id) {
-    const article = articles.find(article => article.id === id)
+    const client = await this.createConnection();
 
-    return article
+    const article = await client.execute({
+      sql: "SELECT * FROM articles WHERE id = ?",
+      args: [id],
+    })
+
+    client.close()
+
+    return article.rows
   }
 
   static async getByCategory (category) {
-    const selectedArticles = articles.filter(article => article.category === category)
 
-    return selectedArticles
+    const client = await this.createConnection();
+
+    const selectedArticles = await client.execute({
+      sql: "SELECT * FROM articles AS A, categories AS C WHERE C.name = ? AND A.category_id = C.id",
+      args: [category]
+    })
+
+    client.close()
+
+    return selectedArticles.rows
   }
 
   static async create (input) {
     const newArticle = {
       id: randomUUID(),
       release_date: new Date("yyyy, mm, dd"),
-      ...input
+      ...input,
+      category_id: `${input.category_id}`,
+      brand_id: `${input.brand_id}`,
     }
+    console.log(newArticle)
+    const client = await this.createConnection();
 
-    articles.push(newArticle)
+    await client.execute({
+      sql: "INSERT INTO articles (id, name, price, category_id, description, brand_id, availability) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      args: [
+        newArticle.id,
+        newArticle.name,
+        newArticle.price,
+        newArticle.category_id,
+        newArticle.description,
+        newArticle.brand_id,
+        newArticle.availability
+      ]
+    })
+
+    client.close()
+
     return;
   }
 
   static async update (id, input) {
-    const articleIndex = articles.findIndex(article => article.id === id)
+    const client = await this.createConnection();
 
-    if (articleIndex < 0) {
+    const articleToUpdate = (await client.execute({
+      sql: "SELECT * FROM articles WHERE id = ?",
+      args: [id],
+    })).rows[0]
+
+
+    if (!articleToUpdate) {
       return false
     }
 
     const updatedArticle = {
-      ...articles[articleIndex],
+      ...articleToUpdate,
       ...input
     }
 
-    articles[articleIndex] = updatedArticle
+    await client.execute({
+      sql: "UPDATE articles SET name = ?, price = ?, category_id = ?, description = ?, brand_id = ?, availability = ? WHERE id = ?",
+      args: [
+        updatedArticle.name,
+        updatedArticle.price,
+        updatedArticle.category_id,
+        updatedArticle.description,
+        updatedArticle.brand_id,
+        updatedArticle.availability,
+        id
+      ]
+    })
 
-    return articles[articleIndex]
+    return;
   }
 
   static async delete (id) {

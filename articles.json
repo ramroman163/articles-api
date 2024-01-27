@@ -1,4 +1,5 @@
 [
+  {"hola": "eso"},
   {
     "id": "7e7e5b17-4a6c-4b4c-9b7a-dc557e8e64e1",
     "name": "Laptop",
@@ -7,7 +8,7 @@
     "description": "Laptop potente con especificaciones de alto rendimiento.",
     "brand": "MarcaXYZ",
     "availability": true,
-    "images": ["url1.jpg", "url2.jpg"],
+    "images": ["https://picsum.photos/id/102/640/480"],
     "releaseDate": "2023-01-01"
   },
   {
@@ -18,7 +19,7 @@
     "description": "Una cafetera programable para preparar tu café favorito.",
     "brand": "OtraMarca",
     "availability": false,
-    "images": ["url3.jpg", "url4.jpg"],
+    "images": ["https://picsum.photos/id/103/640/480"],
     "releaseDate": "2023-02-15"
   },
   {
@@ -29,7 +30,7 @@
     "description": "Zapatillas cómodas para tus entrenamientos diarios.",
     "brand": "DeporteMax",
     "availability": true,
-    "images": ["url5.jpg", "url6.jpg"],
+    "images": ["https://picsum.photos/id/104/640/480"],
     "releaseDate": "2023-03-10"
   },
   {
@@ -40,7 +41,7 @@
     "description": "El último teléfono inteligente con funciones avanzadas y una cámara de alta calidad.",
     "brand": "SmartTech",
     "availability": true,
-    "images": ["url7.jpg", "url8.jpg"],
+    "images": ["https://picsum.photos/id/114/640/480"],
     "releaseDate": "2023-04-05"
   },
   {
@@ -51,7 +52,7 @@
     "description": "Un juego completo de utensilios de cocina duraderos y antiadherentes.",
     "brand": "ChefMaster",
     "availability": true,
-    "images": ["url9.jpg", "url10.jpg"],
+    "images": ["https://picsum.photos/id/106/640/480"],
     "releaseDate": "2023-05-20"
   },
   {
@@ -62,7 +63,7 @@
     "description": "Rastrea tus actividades diarias y monitorea tu salud con este rastreador de actividad física.",
     "brand": "FitTrack",
     "availability": false,
-    "images": ["url11.jpg", "url12.jpg"],
+    "images": ["https://picsum.photos/id/107/640/480"],
     "releaseDate": "2023-06-15"
   },
   {
@@ -73,7 +74,7 @@
     "description": "Silla ergonómica para un espacio de trabajo cómodo y productivo.",
     "brand": "ErgoComfort",
     "availability": true,
-    "images": ["url13.jpg", "url14.jpg"],
+    "images": ["https://picsum.photos/id/108/640/480"],
     "releaseDate": "2023-07-01"
   },
   {
@@ -84,7 +85,7 @@
     "description": "Auriculares inalámbricos con cancelación de ruido para una experiencia de audio envolvente.",
     "brand": "SoundWave",
     "availability": false,
-    "images": ["url15.jpg", "url16.jpg"],
+    "images": ["https://picsum.photos/id/109/640/480"],
     "releaseDate": "2023-08-10"
   },
   {
@@ -95,7 +96,7 @@
     "description": "Mochila espaciosa y duradera para tus aventuras de viaje.",
     "brand": "ExplorePro",
     "availability": true,
-    "images": ["url17.jpg", "url18.jpg"],
+    "images": ["https://picsum.photos/id/110/640/480"],
     "releaseDate": "2023-09-25"
   },
   {
@@ -106,7 +107,7 @@
     "description": "Mouse para juegos de alta precisión con botones personalizables.",
     "brand": "GameMaster",
     "availability": true,
-    "images": ["url19.jpg", "url20.jpg"],
+    "images": ["https://picsum.photos/id/111/640/480"],
     "releaseDate": "2023-10-15"
   }
 ]

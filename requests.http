@@ -2,7 +2,8 @@
 GET http://localhost:3000/articles
 
 ### GET BY ID
-GET http://localhost:3000/articles/7e7e5b17-4a6c-4b4c-9b7a-dc557e8e64e1
+GET http://localhost:3000/articles/4e6f1a3b-1b67-4a79-8b0c-b7ad88d09e63
+
 
 ### GET BY CATEGORY
 GET http://localhost:3000/articles/categories/Electrónicos
@@ -11,23 +12,26 @@ GET http://localhost:3000/articles/categories/Electrónicos
 POST http://localhost:3000/articles
 Content-Type: application/json
 
+
 {
   "name": "Termo",
   "price": 20,
-  "category": "Deportes",
+  "category_id": 1,
   "description": "Mantiene el agua fría por 10 horas",
+  "brand_id": 1,
   "availability": true
 }
+
 
 ### DELETE
 DELETE http://localhost:3000/articles/2f0601f6-eb93-4d55-90a2-b151b2af63de
 
 ### PATCH
-PATCH http://localhost:3000/articles/2f0601f6-eb93-4d55-90a2-b151b2af63de
+PATCH http://localhost:3000/articles/41a0e880-8b0f-44ba-9ddb-d2f9bb34ce01
 Content-Type: application/json
 
 {
   "price": 25,
-  "category": "Hogar"
+  "category": 1
 }
 

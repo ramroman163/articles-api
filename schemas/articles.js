@@ -11,12 +11,12 @@ const articleSchema = z.object({
   }).positive({
     message: 'Article price must be a positive',
   }),
-  category: z.string({
-    invalid_type_error: 'Article category must be a string',
+  category_id: z.number({
+    invalid_type_error: 'Article category must be a number',
     required_error: 'Article category is required'
   }),
   description: z.string(),
-  brand: z.string().optional(),
+  brand_id: z.number().optional(),
   availability: z.boolean({
     invalid_type_error: 'Article availability must be a boolean',
     required_error: 'Article availability is required'
