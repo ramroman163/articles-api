@@ -1,33 +1,107 @@
-# Store API
 
-API sobre artículos
+# API de  Articulos
 
-## Uso
+Permite la carga, lectura, edición y eliminación de articulos.
 
-Al ser un CRUD funcional, tenemos diferentes endpoints:
 
-## GET
+## Consultas
 
-- Obtener por ID: /articles/:id
-- Obtener todos: /articles
-- Obtener por categorias: /articles/categories/:category
+#### Obtener todos los articulos
 
-## POST
+```http
+  GET http://localhost:3000/articles
+```
+
+#### Obtener todos los articulos sin preprocesamiento
+
+```http
+  GET http://localhost:3000/articles?raw=true
+```
+
+#### Obtener todos los articulos según categoría
+
+```http
+  GET http://localhost:3000/articles/categories/:category
+```
+
+#### Obtener articulo según id
+
+```http
+  GET http://localhost:3000/articles/:id
+```
+
+#### Agregar un nuevo articulo
+
+```http
+  POST http://localhost:3000/articles
+  Content-Type: application/json
   
-- Crear nuevo artículo: /articles
+  {
+    "name": "...",
+    "price": ...,
+    "category_id": ...,
+    "description": "...",
+    "brand_id": ...,
+    "availability": ...,
+    "release_date": "..."
+  }
+```
 
-## DELETE
+#### Editar un nuevo articulo
 
-- Eliminar un artículo: /articles/:id
+```http
+  PATCH http://localhost:3000/articles/:id
+  Content-Type: application/json
 
-## PATCH
+  {
+    "price": 25,
+    "category": 1
+  }
+```
 
-- Actualizar un artículo: /articles/:id
+#### Eliminar articulo según id
 
-## Instalar
+```http
+  DELETE http://localhost:3000/articles/:id
+```
 
-Descarga o clona el proyecto, y dentro del directorio ejecuta la siguiente línea:
+
+## Environment Variables
+
+Para correr el proyecto, debes tener las siguientes variables de entorno en un archivo .env
+
+`DB_URL`
+URL de la BBDD en Turso
+
+`DB_TOKEN`
+TOKEN de la BBDD en Turso
+
+
+## Instalacion
+
+Dirigirse mediante la consola al directorio del proyecto y ejecutar el siguiente comando:
 
 ```bash
-npm install
+  npm install 
 ```
+    
+## Local Deployment
+
+Para iniciar la API, correr el siguiente comando
+
+```bash
+  node index.js
+```
+
+
+## Tech Stack
+
+- Backend: Node.js, Express
+- BBDD: SQL
+- Host BBDD: Turso
+
+
+## Authors
+
+- [@ramroman163](https://www.github.com/ramroman163)
+
